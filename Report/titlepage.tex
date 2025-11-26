@@ -1,0 +1,54 @@
+\begin{titlepage}
+% --------------------- Khung viền đẹp ---------------------
+    \begin{tikzpicture}[remember picture,overlay,inner sep=0,outer sep=0]
+		\draw[blue!70!black,line width=4pt] ([xshift=-1.5cm,yshift=-2cm]current page.north east) coordinate (A)--([xshift=1.5cm,yshift=-2cm]current page.north west) coordinate(B)--([xshift=1.5cm,yshift=2cm]current page.south west) coordinate (C)--([xshift=-1.5cm,yshift=2cm]current page.south east) coordinate(D)--cycle;
+		
+		\draw ([yshift=0.5cm,xshift=-0.5cm]A)-- ([yshift=0.5cm,xshift=0.5cm]B)--
+		([yshift=-0.5cm,xshift=0.5cm]B) --([yshift=-0.5cm,xshift=-0.5cm]B)--([yshift=0.5cm,xshift=-0.5cm]C)--([yshift=0.5cm,xshift=0.5cm]C)--([yshift=-0.5cm,xshift=0.5cm]C)-- ([yshift=-0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=0.5cm]D)--([yshift=-0.5cm,xshift=0.5cm]A)--([yshift=-0.5cm,xshift=-0.5cm]A)--([yshift=0.5cm,xshift=-0.5cm]A);
+		
+		
+		\draw ([yshift=-0.3cm,xshift=0.3cm]A)-- ([yshift=-0.3cm,xshift=-0.3cm]B)--
+		([yshift=0.3cm,xshift=-0.3cm]B) --([yshift=0.3cm,xshift=0.3cm]B)--([yshift=-0.3cm,xshift=0.3cm]C)--([yshift=-0.3cm,xshift=-0.3cm]C)--([yshift=0.3cm,xshift=-0.3cm]C)-- ([yshift=0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=-0.3cm]D)--([yshift=0.3cm,xshift=-0.3cm]A)--([yshift=0.3cm,xshift=0.3cm]A)--([yshift=-0.3cm,xshift=0.3cm]A);
+		
+	\end{tikzpicture}
+
+\vspace*{0.5cm}
+
+\begin{center}
+    % Tên trường - in hoa đậm
+    {\fontsize{16pt}{20pt}\selectfont\textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}}\\[8pt]
+    {\fontsize{16pt}{20pt}\selectfont\textbf{TRƯỜNG ĐẠI HỌC BÁCH KHOA}}\\[6pt]
+    {\fontsize{14pt}{18pt}\selectfont\textbf{KHOA ĐIỆN - ĐIỆN TỬ}}\\[4pt]
+    {\fontsize{14pt}{18pt}\selectfont\textbf{BỘ MÔN ĐIỆN TỬ}}\\[12pt]
+        % Logo trường
+    \includegraphics[width=0.28\textwidth]{./image/hcmut.png}\\[18pt]
+    \rule{10cm}{1.2pt}\\[20pt]
+    
+    
+    % Tiêu đề báo cáo
+    {\fontsize{20pt}{24pt}\selectfont\textbf{BÁO CÁO BÀI TẬP LỚN SỐ 1}}\\[12pt]
+    \rule{12cm}{1.6pt}\\[20pt]
+    
+    {\LARGE\bfseries THIẾT KẾ MẠCH ĐO KHỐI LƯỢNG}\\[30pt]
+    
+    % Giảng viên hướng dẫn
+    {\Large\bfseries GVHD: ThS. Nguyễn Trung Hiếu}\\[30pt]
+    
+    % Nhóm sinh viên
+    {\fontsize{17}{19}\selectfont
+    \begin{tabular}{c@{\hspace{3.5cm}}c}
+        \bfseries Sinh viên thực hiện & \bfseries MSSV \\[8pt]
+        Ve Samy                          & 2212901  \\
+        Nguyễn Xuân Phát                 & 2212529  \\
+        Nguyễn Thanh Duy                 & 2210527  \\
+    \end{tabular}}
+    
+    \vfill
+    
+    % Ngày tháng
+      
+    {\Large Thành phố Hồ Chí Minh, \today}
+
+    \vspace*{0.3cm} 
+\end{center}
+\end{titlepage}

@@ -1,0 +1,43 @@
+\documentclass[12pt, a4paper, fleqn]{extreport}
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath,amsfonts,amssymb}   %% AMS mathematics macros
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[left=3.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry} 
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{titlesec} % Tùy chỉnh tiêu đề chương/section
+\usepackage{fancyhdr} % Tùy chỉnh header/footer
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,shapes,arrows}
+
+\renewcommand{\normalsize}{\fontsize{13}{16}\selectfont}
+
+%%%%% The Document
+\setlength{\parindent}{30pt} % Thụt đầu dòng 30pt
+\fontsize{13pt}{13pt}\selectfont % Cỡ chữ mặc định 13pt, khoảng cách dòng 13pt
+\pagestyle{fancy} % Kích hoạt kiểu trang tùy chỉnh (header/footer)
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}} % Lưu tên chương vào \leftmark
+\fancyhf{} % Xóa header/footer mặc định
+\fancyhead[L]{\textit{\leftmark}} % Header trái: Tên chương (in nghiêng)
+\fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}} % Header phải: Tên giảng viên (in nghiêng)
+\fancyfoot[R]{Trang $\mid$ \thepage} % Footer phải: Số trang (Trang | <số>)
+
+% Tùy chỉnh định dạng cho tiêu đề chương
+\titleformat{\chapter}[block]
+{\normalfont\LARGE\bfseries\raggedright} % Kiểu chữ: đậm, cỡ lớn, căn trái
+{CHƯƠNG \thechapter} % Hiển thị "CHƯƠNG" + số chương
+{1em} % Khoảng cách giữa số chương và tiêu đề
+{\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedleft} % Dòng kẻ trên, tiêu đề căn phải
+[\rule{\textwidth}{0.5pt}] % Dòng kẻ dưới tiêu đề
+
+\begin{document}
+
+\input{titlepage}
+
+
+\end{document}
