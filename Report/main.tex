@@ -23,21 +23,40 @@
 
 \renewcommand{\sectionmark}[1]{\markboth{#1}{#1}} % Lưu tên chương vào \leftmark
 \fancyhf{} % Xóa header/footer mặc định
-\fancyhead[L]{\textit{\leftmark}} % Header trái: Tên chương (in nghiêng)
 \fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}} % Header phải: Tên giảng viên (in nghiêng)
 \fancyfoot[R]{Trang $\mid$ \thepage} % Footer phải: Số trang (Trang | <số>)
 
-% Tùy chỉnh định dạng cho tiêu đề chương
-\titleformat{\chapter}[block]
-{\normalfont\LARGE\bfseries\raggedright} % Kiểu chữ: đậm, cỡ lớn, căn trái
-{CHƯƠNG \thechapter} % Hiển thị "CHƯƠNG" + số chương
-{1em} % Khoảng cách giữa số chương và tiêu đề
-{\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedleft} % Dòng kẻ trên, tiêu đề căn phải
-[\rule{\textwidth}{0.5pt}] % Dòng kẻ dưới tiêu đề
+\fancypagestyle{plain}{
+\fancyhf{} % Xóa header/footer mặc định
+\fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}} % Header phải: Tên giảng viên (in nghiêng)
+\fancyfoot[R]{Trang $\mid$ \thepage} % Footer phải: Số trang (Trang | <số>)
+}
 
 \begin{document}
 
-\input{titlepage}
+    % Trang bìa, lời cảm ơn...
+  \pagenumbering{gobble} 
+
+  \input{titlepage}
+  \input{loicamon}
+
+  % Bắt đầu đánh số từ mục lục
+  \cleardoublepage
+  \pagenumbering{arabic}
+  \fancyfoot[R]{Trang $\mid$ \thepage}
+
+  \tableofcontents
+  \listoffigures
+  \listoftables
+
+  % Chỉ chương chính mới áp dụng định dạng tiêu đề
+  \cleardoublepage
+  \titleformat{\chapter}[block]
+  {\normalfont\LARGE\bfseries\raggedright}
+  {CHƯƠNG \thechapter}
+  {1em}
+  {\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedleft}
+  [\rule{\textwidth}{0.5pt}]
 
 
 \end{document}
