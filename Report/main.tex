@@ -1,62 +1,76 @@
 \documentclass[12pt, a4paper, fleqn]{extreport}
 \usepackage[utf8]{vietnam}
-\usepackage{amsmath,amsfonts,amssymb}   %% AMS mathematics macros
-\usepackage{graphics}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage[left=3.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry} 
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx, float}
+\usepackage[left=3cm, right=2cm, top=2cm, bottom=2cm]{geometry}
 \usepackage{setspace}
-\usepackage{array}
-\usepackage{booktabs}
-\usepackage{subcaption}
-\usepackage{titlesec} % Tùy chỉnh tiêu đề chương/section
-\usepackage{fancyhdr} % Tùy chỉnh header/footer
+\usepackage{array, booktabs, subcaption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
 \usepackage{tikz}
 \usetikzlibrary{calc,positioning,shapes,arrows}
+\usepackage{tocloft} % Điều chỉnh spacing cho TOC/LOF/LOT
 
-\renewcommand{\normalsize}{\fontsize{13}{16}\selectfont}
+% --- Font size & line spacing ---
+\renewcommand{\normalsize}{\fontsize{15}{16}\selectfont} % font 15pt, dòng 16pt
+\setstretch{1.2} % khoảng cách dòng
 
-%%%%% The Document
-\setlength{\parindent}{30pt} % Thụt đầu dòng 30pt
-\fontsize{13pt}{13pt}\selectfont % Cỡ chữ mặc định 13pt, khoảng cách dòng 13pt
-\pagestyle{fancy} % Kích hoạt kiểu trang tùy chỉnh (header/footer)
-
-\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}} % Lưu tên chương vào \leftmark
-\fancyhf{} % Xóa header/footer mặc định
-\fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}} % Header phải: Tên giảng viên (in nghiêng)
-\fancyfoot[R]{Trang $\mid$ \thepage} % Footer phải: Số trang (Trang | <số>)
+% --- Header & Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}}
+\fancyfoot[R]{Trang $\mid$ \thepage}
 
 \fancypagestyle{plain}{
-\fancyhf{} % Xóa header/footer mặc định
-\fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}} % Header phải: Tên giảng viên (in nghiêng)
-\fancyfoot[R]{Trang $\mid$ \thepage} % Footer phải: Số trang (Trang | <số>)
+    \fancyhf{}
+    \fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}}
+    \fancyfoot[R]{Trang $\mid$ \thepage}
 }
+
+\setlength{\headheight}{25pt}
+\setlength{\footskip}{20pt}
+\setlength{\parindent}{30pt}
+
+% --- TOC / LOF / LOT spacing ---
+\setlength{\cftbeforetoctitleskip}{0pt}  % khoảng cách trước tiêu đề TOC
+\setlength{\cftaftertoctitleskip}{10pt}  % khoảng cách sau tiêu đề TOC
+
+\setlength{\cftbeforeloftitleskip}{0pt}  % trước LOF
+\setlength{\cftafterloftitleskip}{10pt}  % sau LOF
+
+\setlength{\cftbeforelottitleskip}{0pt}  % trước LOT
+\setlength{\cftafterlottitleskip}{10pt}  % sau LOT
+
+% --- Chapter style ---
+\titleformat{\chapter}[block]
+{\normalfont\LARGE\bfseries\raggedright}
+{CHƯƠNG \thechapter}{1em}
+{\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedright}
+[\rule{\textwidth}{0.5pt}]
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt} 
 
 \begin{document}
 
-    % Trang bìa, lời cảm ơn...
-  \pagenumbering{gobble} 
+% --- Trang bìa & lời cảm ơn ---
+\pagenumbering{gobble} 
+\input{titlepage}
+\cleardoublepage
+\input{loicamon}
 
-  \input{titlepage}
-  \input{loicamon}
+% --- TOC / LOF / LOT ---
+\cleardoublepage
+\pagenumbering{arabic}
 
-  % Bắt đầu đánh số từ mục lục
-  \cleardoublepage
-  \pagenumbering{arabic}
-  \fancyfoot[R]{Trang $\mid$ \thepage}
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
 
-  \tableofcontents
-  \listoffigures
-  \listoftables
+% --- Nội dung chương ---
+\cleardoublepage
+\input{chuong1}
 
-  % Chỉ chương chính mới áp dụng định dạng tiêu đề
-  \cleardoublepage
-  \titleformat{\chapter}[block]
-  {\normalfont\LARGE\bfseries\raggedright}
-  {CHƯƠNG \thechapter}
-  {1em}
-  {\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedleft}
-  [\rule{\textwidth}{0.5pt}]
-
-
+\newpage
+\input{chuong2}
 \end{document}
