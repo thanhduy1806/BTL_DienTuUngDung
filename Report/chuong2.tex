@@ -1,8 +1,130 @@
 \chapter{Khái niệm và lựa chọn linh kiện}
-\section{Khái niệm}
+\section{Giới thiệu Load cell}
 
-\section{Lựa chọn Loadcell}
+Load cell là một cảm biến dùng để đo lực hoặc khối lượng bằng cách chuyển đổi lực tác dụng lên nó thành tín hiệu điện. 
+Load cell hiện đại thường hoạt động dựa trên các strain gauge được dán lên một cấu trúc kim loại đàn hồi. 
+Khi có lực tác động, cấu trúc này bị biến dạng rất nhỏ, làm thay đổi điện trở của các strain gauge. 
+Những thay đổi điện trở này được mắc trong một cầu Wheatstone, nhờ đó tạo ra một tín hiệu điện áp rất nhỏ, tỉ lệ tuyến tính với lực. 
+Vì tín hiệu đầu ra của load cell chỉ ở mức vài mV, nó thường cần được khuếch đại bởi các mạch chuyên dụng trước khi đưa vào bộ ADC hoặc bộ điều khiển. 
+Load cell được ứng dụng rộng rãi trong cân điện tử, hệ thống đo lường công nghiệp, robot và các thiết bị kiểm soát lực.\\
+
+\noindent
+\textbf{Cấu tạo của Load cell:}
+\begin{itemize}
+    \item \textbf{Chất liệu (thân cảm biến):}
+    Là một thanh kim loại chịu tải có tính đàn hồi cao, thường được chế tạo từ nhôm hợp kim hoặc thép không gỉ. 
+    Khi có lực tác động, thanh này sẽ bị biến dạng nhẹ.
+    \item \textbf{Strain Gage:}
+    Là điện trở đặc biệt với kích thước nhỏ. 
+    Khi bị kéo dãn hoặc nén lại, điện trở của strain gage sẽ thay đổi tỉ lệ với lực tác động. 
+    Strain gage thường được dán lên thân cảm biến.
+    \item \textbf{Vỏ bọc:}
+    Vỏ bọc bảo vệ các thành phần bên trong khỏi bụi bẩn, độ ẩm và các tác động môi trường khác.
+\end{itemize}
+
+\noindent
+\textbf{Nguyên lý hoạt động của Load cell:}
+
+Trong hầu hết các ứng dụng, một đầu của load cell được cố định vào khung hoặc bệ đỡ, trong khi đầu còn lại liên kết với vật cần cân hay chịu lực. 
+Khi lực tác dụng lên load cell, thân kim loại sẽ cong hoặc biến dạng nhẹ dưới áp suất. 
+Mức biến dạng này rất nhỏ, gần như không thể quan sát bằng mắt thường, nhưng đủ để tác động lên các strain gauge được dán trên bề mặt.
+Khi thân cảm biến biến dạng, các strain gauge cũng biến dạng theo, làm thay đổi điện trở của chúng theo một quan hệ tỷ lệ với lực tác dụng.
+Chính sự thay đổi điện trở vi mô này là cơ sở để load cell chuyển đổi lực cơ học thành tín hiệu điện.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{image/nguyenlyLoadcell.png}
+    \caption{Cấu tạo của Load cell}
+    \label{fig:loadcell_structure}
+\end{figure}
+Load cell hoạt động dựa trên nguyên lý cầu Wheatstone. Phần điện áp tín hiệu ra (Signal Output) được đo giữa hai điểm giữa của cầu. 
+Các điện trở R1, R2, R3, R4 tạo thành cầu Wheatstone. 
+$R_1$, $R_3$ sẽ có giá trị như nhau nhưng sẽ đối nghịch với $R_2$, $R_4$ khi có lực tác động lên Load cell do sẽ có 1 cặp giãn và 1 cặp nén. 
+Khi ở trạng thái không tải, cầu cân bằng, điện áp tín hiệu ra sẽ bằng 0 hoặc xấp xỉ bằng 0. 
+Khi có lực tác dụng lên Load cell, $R_1$, $R_3$ sẽ tăng thêm 1 lượng giá trị $R_f$, trong khi $R_2$, $R_4$ sẽ giảm đi 1 lượng giá trị $R_f$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{image/Loadcell_model.png}
+    \caption{Mô hình Load cell mô phỏng}
+    \label{fig:loadcell_model}
+\end{figure}
+
+\section{Lựa chọn Load cell}
+
+Dựa trên yêu cầu đề tài và các Load cell đuộc bán tại Việt Nam, nhóm đã lựa chọn Load cell YZC-133 có tải trọng 1kg.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{image/loadcell_1kg.png}
+    \caption{Load cell YZC-133 1kg}
+    \label{fig:loadcell_1kg}
+\end{figure}
+
+Các thông số của loadcell:
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Model&YZC – 133\\
+\hline
+Tải trọng&1Kg\\
+\hline
+Rated Output (mV/V)& 1.0 $\pm$ 0.15\\
+\hline
+Độ lệch tuyến tính (\%)& 0.05\\
+\hline
+Creep (5min) \% & 0.1\\
+\hline
+Ảnh hưởng nhiệt độ tới độ nhạy \%RO/$^o C$& 0.003\\
+\hline
+Ảnh hưởng nhiệt độ tới điểm không \%RO/$^o C$ & 0.02              \\
+\hline
+Độ cân bằng điểm không \%RO                  & $\pm$0.1             \\
+\hline
+Trở kháng đầu vào ($\Omega$)                       & 1066 $\pm$ 20        \\
+\hline
+Trở kháng ngõ ra ($\Omega$)                        & 1000 $\pm$ 20        \\
+\hline
+Trở kháng cách li ($M\Omega$) 50V                   & 2000              \\
+\hline
+Điện áp hoạt động                            & 5V                \\
+\hline
+Nhiệt độ hoạt động                           & -20 $\sim 65^o C$ \\
+\hline
+Safe Overload \%RO                           & 120               \\
+\hline
+Ultimate overload \%RO                       & 150               \\
+\hline
+Chất liệu cảm biến                           & Nhôm              \\
+\hline
+Độ dài dây                                   & 180mm             \\
+\hline
+Dây đỏ                                       & Ngõ vào ( + )     \\
+\hline
+Dây đen                                      & Ngõ vào ( – )     \\
+\hline
+Dây xanh Lá                                  & Ngõ ra ( + )      \\
+\hline
+Dây trắng                                    & Ngõ ra ( – )\\
+\hline
+\end{tabular}
+\end{center}
+
+Khi cấp nguồn 5V và khối lượng đo được là 1kg, ta có tín hiệu ngõ ra $V_{out} = 5mV \pm 0.75mV$.
 
 \section{Lựa chọn OPAMP}
+Vì ngõ ra vi sai với điện áp 5mV rất nhỏ và có thể bị ảnh hưởng từ các giá trị không lý tưởng của OPAMP và làm sai số. 
+Do đó, nhóm sẽ khuếch đại điện áp lên 5V để hạn chế ảnh hưởng từ những giá trị không lý tưởng đó và giúp dễ dàng đo lường hơn. 
+Từ đó, nhóm lựa chọn bộ khuếch đại dụng cụ (Instrumentation Amplifier) INA333 để khuếch đại vi sai từ ngõ ra của load cell. 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{image/INA333.png}
+    \caption{INA333}
+    \label{fig:ina333}
+\end{figure}
 
+Bên cạnh đó, nhóm chọn OPAMP OP07C để dùng cho các mạch V-I Converter, mạch khuếch đại, mạch đệm,\dots
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/OP07C.png}
+    \caption{OPAMP OP07C}
+    \label{fig:op07c}
+\end{figure}
