@@ -10,6 +10,8 @@
 \usepackage{tikz}
 \usetikzlibrary{calc,positioning,shapes,arrows}
 \usepackage{tocloft} % Điều chỉnh spacing cho TOC/LOF/LOT
+\usepackage{indentfirst}
+\usepackage[hidelinks]{hyperref} % Hyperlink nên đặt ở cuối cùng
 
 % --- Font size & line spacing ---
 \renewcommand{\normalsize}{\fontsize{13}{16}\selectfont} % font 13pt, dòng 16pt
@@ -18,18 +20,18 @@
 % --- Header & Footer ---
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}}
+\fancyhead[R]{\textit{GVHD: ThS. Nguyễn Trung Hiếu}}
 \fancyfoot[R]{Trang $\mid$ \thepage}
 
 \fancypagestyle{plain}{
     \fancyhf{}
-    \fancyhead[R]{\textit{GVHD: ThS Nguyễn Trung Hiếu}}
+    \fancyhead[R]{\textit{GVHD: ThS. Nguyễn Trung Hiếu}}
     \fancyfoot[R]{Trang $\mid$ \thepage}
 }
 
 \setlength{\headheight}{25pt}
 \setlength{\footskip}{20pt}
-\setlength{\parindent}{30pt}
+\setlength{\parindent}{35pt}
 
 % --- TOC / LOF / LOT spacing ---
 \setlength{\cftbeforetoctitleskip}{0pt}  % khoảng cách trước tiêu đề TOC
@@ -55,12 +57,11 @@
 \pagenumbering{gobble} 
 \input{titlepage}
 \cleardoublepage
+\pagenumbering{arabic}
 \input{loicamon}
 
 % --- TOC / LOF / LOT ---
 \cleardoublepage
-\pagenumbering{arabic}
-
 \tableofcontents
 \cleardoublepage
 \listoffigures
