@@ -1,6 +1,50 @@
 \chapter{Tính toán mô phỏng}
 \section{Mô hình loadcell}
 
+Mô hình load cell được minh họa trong Hình~\ref{fig:loadcell_model}, ta có được $R_{in}$ và $R_{out}$ như sau:
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image/Rin.png}
+        \caption{$R_{in}$}
+        \label{fig:rin}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image/Rout.png}
+        \caption{$R_{out}$}
+        \label{fig:rout}
+    \end{minipage}
+\end{figure}
+
+\noindent
+Ta có:
+\[
+\left\{
+\begin{aligned}
+R_{in} &= \dfrac{(R_0+R_f) + (R_0-R_f)}{2} + 2R_s \\
+R_{out} &= R_0 - \dfrac{R_f^2}{R_0 + 2R_s}
+\end{aligned}
+\right.
+\]
+
+\noindent
+Khi $m = 0$, cầu cân bằng:
+\[
+\left\{
+\begin{aligned}
+R_f &= 0 \\[4pt]
+R_0 &= R_{out} = 1000\,\Omega \\[4pt]
+R_s &= 33\,\Omega
+\end{aligned}
+\right.
+\]
+
+
+
 \section{Tính toán mạch V-I Converter}
 
 \section{Thiết kế mạch đọc dòng}
