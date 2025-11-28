@@ -5,14 +5,14 @@ Mô hình load cell được minh họa trong Hình~\ref{fig:loadcell_model}, ta
 
 \begin{figure}[H]
     \centering
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.35\textwidth}
         \centering
         \includegraphics[width=\textwidth]{image/Rin.png}
         \caption{$R_{in}$}
         \label{fig:rin}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.35\textwidth}
         \centering
         \includegraphics[width=\textwidth]{image/Rout.png}
         \caption{$R_{out}$}
@@ -20,6 +20,12 @@ Mô hình load cell được minh họa trong Hình~\ref{fig:loadcell_model}, ta
     \end{minipage}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{image/Loadcell_model_2.png}
+    \caption{Mô hình Load cell mô phỏng}
+    \label{fig:loadcell_model_2}
+\end{figure}
 \noindent
 Ta có:
 \[
@@ -30,10 +36,10 @@ R_{out} &= R_0 - \dfrac{R_f^2}{R_0 + 2R_s}
 \end{aligned}
 \right.
 \]
-
 \noindent
-Khi $m = 0$, cầu cân bằng:
+Khi chưa có tải $m = 0$, cầu cân bằng:
 \[
+\rightarrow
 \left\{
 \begin{aligned}
 R_f &= 0 \\[4pt]
@@ -42,9 +48,100 @@ R_s &= 33\,\Omega
 \end{aligned}
 \right.
 \]
+\noindent
+Khi có tải $m \neq 0 \rightarrow R_f \neq 0$. Ta có:
+\[
+\left\{
+\begin{aligned}
+I_2 &= I_3 = \dfrac{I_1}{2} \\
+V_{out} &= V_a - V_b = (I_1R_s+I_3(R_0+R_f)) -(I_1R_s+I_2(R_0-R_f)) \\
+\end{aligned}
+\right.
+\]
+\begin{align*}
+&\rightarrow\; V_{\text{out}} 
+= \left[ I_1 R_s + \dfrac{I_1}{2}(R_0 + R_f) \right] 
+- \left[ I_1 R_s + \dfrac{I_1}{2}(R_0 - R_f) \right] 
+= I_1 R_f 
+= R_f \dfrac{V_{\text{in}}}{R_{\text{in}}} \\
+%
+&\rightarrow\; R_f 
+= R_{\text{in}} \dfrac{V_{\text{out}}}{V_{\text{in}}} 
+= R_{\text{in}} \times V_{RO} \times \dfrac{\text{m}}{1\,\text{kg}} 
+= 1066 \times 1 \times 10^{-3} \times m \\
+%
+&\boxed{\rightarrow\; R_f = 1.066 \times m \quad (\Omega)}
+\end{align*}
 
+Mô phỏng trên NI multisim:
+%Cho hình vào đây
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image/m=0.png}
+        \caption{Load cell khi $m = 0$ kg}
+        \label{fig:m=0}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image/m=1.png}
+        \caption{Load cell khi $m = 1$ kg}
+        \label{fig:m=1}
+    \end{minipage}
+\end{figure}
 
+\textbf{Nhận xét:} Tín hiệu ngõ ra của load cell mô phỏng đã đúng với các tính toán.
+
+Như đã đề cập ở chương 2, ngõ ra cần khuếch đại lên 5V. Chính vì thế độ lợi là 1000. 
+
+Ta có độ lợi của INA333 $G = 1+\frac{100k\Omega}{R_G} \rightarrow R_G = 100 \Omega$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{image/loadcell_ampli.png}
+    \caption{Load cell sau khi khuếch đại}
+    \label{fig:loadcell_amplifier}
+\end{figure}
+
+\textbf{Nhận xét:} Tín hiệu ngõ ra của load cell sau khi khuếch đại đã giống với tính toán. 
+Bên cạnh đó, ta cần tín hiệu calib cấp vào chân $V_{ref}$ của INA333 để hiệu chỉnh cho các giá trị không lý tưởng của OPAMP và cân bằng lại loadcell.
 
 \section{Tính toán mạch V-I Converter}
+
+Sau khi khuếch đại tín hiệu từ INA333, ta cần chuyển đổi tín hiệu từ 0-5V thành 4-20mA.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/V_I_graph.png}
+    \caption{Chuyển đổi V-I}
+    \label{fig:V_I_graph}
+\end{figure}
+
+Ta có: $I = 3.2V + 4 \rightarrow I = \dfrac{V+1.25}{0.3125}$
+
+\noindent
+Cần mạch cộng điện áp với $V_{ref} = 1.25V$ và mạch chuyển đổi V-I.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{image/V_I_circuit.png}
+    \caption{Mạch cộng điện áp và V-I converter}
+    \label{fig:V_I_circuit}
+\end{figure}
+\noindent
+Ta có: $V_{o1} = \left(1 + \dfrac{R_2}{R_1}\right)\dfrac{V + 1.25}{2} \rightarrow \dfrac{R_2}{R_1} = 1$\\
+Chọn $R_1 = R_2 = 10k\Omega$, $R_L =50 \Omega$ $R_3 = 0.3125k \Omega$.\\
+
+\noindent
+Mô phỏng trên NI multisim:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{image/V_I_circuit_simu.png}
+    \caption{Mô phỏng V-I converter}
+    \label{fig:V_I_circuit_simu}
+\end{figure}
+
+\textbf{Nhận xét:} Với khối lượng là 1kg, dòng ngõ ra là 20mA đúng với tính toán.
+Tuy nhiên để đạt được kết quả này cần phải điều chỉnh $V_{calib}$ bởi vì không có trở với giá trị $0.3125k \Omega$ so với lý thuyết nên nhóm chọn nối tiếp 3 điện trở 100$\Omega$ và 1 điện trở 10$\Omega$.
 
 \section{Thiết kế mạch đọc dòng}
