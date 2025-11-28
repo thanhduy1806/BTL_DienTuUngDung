@@ -59,6 +59,7 @@ Dựa trên yêu cầu đề tài và các Load cell đuộc bán tại Việt N
 \end{figure}
 
 Các thông số của loadcell:
+\begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|}
 \hline
@@ -105,7 +106,12 @@ Dây xanh Lá                                  & Ngõ ra ( + )      \\
 Dây trắng                                    & Ngõ ra ( – )\\
 \hline
 \end{tabular}
+\caption{Thông số kỹ thuật loadcell YZC-133}
+\label{tab:yzc133}   % để tham chiếu sau này bằng \ref{tab:yzc133}
 \end{center}
+\end{table}
+
+Ta có: $\boxed{V_{out} = V_{in} \cdot V_{RO} \cdot \dfrac{m}{1kg}}$  với m là khối lượng đặt lên load cell.\\
 
 Khi cấp nguồn 5V và khối lượng đo được là 1kg, ta có tín hiệu ngõ ra $V_{out} = 5mV \pm 0.75mV$.
 
@@ -124,7 +130,7 @@ Từ đó, nhóm lựa chọn bộ khuếch đại dụng cụ (Instrumentation 
 Bên cạnh đó, nhóm chọn OPAMP OP07C để dùng cho các mạch V-I Converter, mạch khuếch đại, mạch đệm,\dots
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{image/OP07C.png}
+    \includegraphics[width=0.3\textwidth]{image/OP07C.png}
     \caption{OPAMP OP07C}
     \label{fig:op07c}
 \end{figure}
