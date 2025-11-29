@@ -185,3 +185,65 @@ Mô phỏng trên NI multisim:
 \textbf{Nhận xét:} Điện áp sau khi đọc dòng sẽ được đệm qua 1 buffer để đưa vào khối ADC.
 Với khối lượng là 1kg, điện áp ngõ ra là 3.3V đúng với tính toán.
 Với khối lượng là 0kg, điện áp ngõ ra đo được là 0.65mV.
+
+\section{Thiết kế mạch bù nhiệt}
+\subsection{Vai trò của việc bù nhiệt}
+Trên lý thuyết, cảm biến được thiết kế khi nó đang được tham chiếu trong một môi trường thiết kế nhất định, khi đó tính chính xác của cảm biến đó sẽ đúng nhưng chỉ đối với tại môi trường mà nó được sản xuất. Trong thực tế, cảm biến sẽ dùng ở những môi trường khác nhau, cụ thể với load cell khi xem xét về vấn đề nhiệt độ nó sẽ có những sai số theo như datasheet mô tả.
+
+Các thông số của loadcell bị ảnh hưởng bởi nhiệt độ:\\
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Ảnh hưởng nhiệt độ tới độ nhạy \%RO/$^o C$& 0.003\\
+\hline
+Ảnh hưởng nhiệt độ tới điểm không \%RO/$^o C$ & 0.02              \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}\\
+
+
+Ảnh hưởng nhiệt độ tới độ nhạy: 
+$0.003\%RO/^{\circ}\text{C}$ có nghĩa là: cứ mỗi $1^{\circ}\text{C}$ nhiệt độ môi trường thay đổi (tăng hoặc giảm) so với nhiệt độ tham chiếu (thường là $25^{\circ}\text{C}$), thì độ nhạy của Load Cell sẽ thay đổi $\mathbf{0.003\%}$ so với giá trị $RO$ danh định của nó.
+Hậu quả: Nếu nhiệt độ tăng, ví dụ, $10^{\circ}\text{C}$ so với nhiệt độ chuẩn, thì độ nhạy sẽ thay đổi $10 \times 0.003\% = 0.03\%$. Điều này dẫn đến sự sai lệch trong phép đo tải. Ví dụ: khi bạn đặt tải tối đa, tín hiệu ngõ ra có thể không phải là $RO$ mà là $RO \pm 0.03\%$.
+
+Ảnh hưởng nhiệt độ tới điểm không: là tín hiệu ngõ ra của Load Cell khi không có bất kỳ tải trọng nào tác dụng. Load Cell lý tưởng phải có ngõ ra bằng $0$ khi không tải. $0.02\%RO/^{\circ}\text{C}$ có nghĩa là: cứ mỗi $1^{\circ}\text{C}$ nhiệt độ môi trường thay đổi, thì tín hiệu điểm không của Load Cell sẽ thay đổi (lệch đi) $\mathbf{0.02\%}$ so với giá trị $RO$ danh định. Hậu quả: Sự thay đổi này làm cho điểm khởi đầu của phép đo bị sai lệch. Ví dụ, nếu nhiệt độ tăng $1^{\circ}\text{C}$, ngay cả khi không có tải, Load Cell vẫn xuất ra một tín hiệu tương đương $0.02\%$ của tải tối đa. Đây được gọi là trôi điểm không (Zero Drift).
+
+Trong bài báo cáo trình bày việc dùng một RTD đo nhiệt độ để từ đó có thể tự bù khoảng trôi điểm 0 do nhiệt độ gây ra trên loadcell.
+
+\subsection{Mô phỏng bù nhiệt và cân bằng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/RTD.jpg}
+    \caption{RTD bù nhiệt}
+    \label{fig:RTD}
+\end{figure}
+
+Hình~\ref{fig:RTD} sử dụng 1 mạch cầu wheatstone cân bằng để đọc cảm biến RTD, đặt biến RTD để mô tả phương trình thay đổi điện trở theo nhiệt độ. Phương trình thay đổi giá trị điện trở của RTD theo nhiệt độ
+
+$$ \boxed{R = 100 + 0.390802T} $$
+
+Để triệt tiêu tín hiệu offset trôi điểm 0 do sai số nhiệt độ gây ra, phải bù bằng đúng mức điện áp khi đọc cảm biến về.
+\begin{flalign*}
+&V_m = V_m(+) - V_m(-) = \frac{E_s R_T}{R_T + R_{26}} - \frac{E_s R_{28}}{R_{28} + R_{29}} & \\
+&\text{Có } R_T = 100 + 0.390802T & \\
+&\implies V_m = E_s \left( \frac{100 + 0.390802T}{100 + 0.390802T + R_{26}} - \frac{R_{28}}{R_{28} + R_{29}} \right) & \\
+&\text{Chọn } R_{28} = 100, R_{26} = R_{29} \text{ và } R_{26} + 100 \gg 0.390802T & \\
+&\text{Điều kiện để bù V diff offset là ta phải có Vm = $ \%RO/^\circ\text{C} $}\\
+&\implies V_m = E_s \left( \frac{100 + 0.390802T}{100 + R_{26}} - \frac{100}{100 + R_{26}} \right) & \\
+&\iff V_m = E_s \frac{0.390802T}{100 + R_{26}} = 5\text{V} \times 0.02\%T & \\
+&\text{Chọn } E_s = 5\text{V} \implies R_{26} = 1854\Omega &
+\end{flalign*}
+
+Sử dụng INA333 để đọc tín hiệu và ngõ ra của cảm biến nhiệt độ và đưa vào bộ cộng để kết hợp với việc tinh chỉnh thủ công từ bộ cộng, từ đó toàn bộ giá trị sẽ được đưa vào chân Vref (chân 5) của INA333 đọc loadcell, Hình~\ref{fig:calib}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/calib.jpg}
+    \caption{Mạch cộng bù nhiệt và cân bằng thủ công}
+    \label{fig:calib}
+\end{figure}
+
+Sử dụng OP07CS8 để làm mạch cộng tín hiệu bù nhiệt độ và tín hiệu cân chỉnh offset thủ công. Tín hiệu bù nhiệt được đưa vào chân âm để có ngõ ra là một điện áp âm để bù với offset nhiệt độ trên loadcell, chân cộng được kết nối với biến trở để điều chỉnh thủ công. Chọn $R_{24} = R_{25} = 10k$ để độ lợi khuếch đại là 1.
