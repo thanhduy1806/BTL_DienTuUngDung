@@ -136,12 +136,52 @@ Chọn $R_1 = R_2 = 10k\Omega$, $R_L =50 \Omega$ $R_3 = 0.3125k \Omega$.\\
 Mô phỏng trên NI multisim:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{image/V_I_circuit_simu.png}
-    \caption{Mô phỏng V-I converter}
-    \label{fig:V_I_circuit_simu}
+    \includegraphics[width=0.8\textwidth]{image/V_I_circuit_simu_m=1.png}
+    \caption{Mô phỏng V-I converter với khối lượng 1kg}
+    \label{fig:V_I_circuit_simu_m=1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/V_I_circuit_simu_m=0.png}
+    \caption{Mô phỏng V-I converter với khối lượng 0kg}
+    \label{fig:V_I_circuit_simu_m=0}
 \end{figure}
 
 \textbf{Nhận xét:} Với khối lượng là 1kg, dòng ngõ ra là 20mA đúng với tính toán.
-Tuy nhiên để đạt được kết quả này cần phải điều chỉnh $V_{calib}$ bởi vì không có trở với giá trị $0.3125k \Omega$ so với lý thuyết nên nhóm chọn nối tiếp 3 điện trở 100$\Omega$ và 1 điện trở 10$\Omega$.
+Tuy nhiên với khối lượng là 0kg, dòng ngõ ra đo được là 3.9mA lệch nhỏ so với lý thuyết 4mA do ảnh hưởng từ các thông số không lý tưởng của OPAMP và bởi vì không có trở với giá trị $0.3125k \Omega$ so với lý thuyết nên nhóm chọn nối tiếp 3 điện trở 100$\Omega$ và 1 điện trở 10$\Omega$.
+Vì thế để đạt được kết quả này cần phải điều chỉnh $V_{calib}$.
 
 \section{Thiết kế mạch đọc dòng}
+
+Đo dòng 4-20mA bằng cách chuyển đổi dòng thành áp qua một điện trở $R_{shunt}$.
+Sau đó đưa áp trên trở vào bộ khuếch đại vi sai để ra áp tương ứng.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{image/current_measurement.png}
+    \caption{Mạch đọc dòng}
+    \label{fig:current_measurement}
+\end{figure}
+
+Chọn $R_1=R_2=32k\Omega$ để độ lợi khuếch đại vi sai $G=\dfrac{1.6M\Omega}{32k\Omega}=50$ và với $I=20mA$ thì $V_{out}=3.3V$.
+Từ đó ta tính được điện trở $R_{shunt} = \dfrac{V_{shunt}}{I} = \dfrac{V_{out}}{G \times I} = \dfrac{3.3V}{50 \times 20mA} = 3.3 \Omega$.\\
+
+Mô phỏng trên NI multisim:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/I_V_m=1.png}
+    \caption{Mô phỏng V-I converter với khối lượng 1kg}
+    \label{fig:I_V_circuit_simu_m=1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/I_V_m=0.png}
+    \caption{Mô phỏng V-I converter với khối lượng 0kg}
+    \label{fig:I_V_circuit_simu_m=0}
+\end{figure}
+
+\textbf{Nhận xét:} Điện áp sau khi đọc dòng sẽ được đệm qua 1 buffer để đưa vào khối ADC.
+Với khối lượng là 1kg, điện áp ngõ ra là 3.3V đúng với tính toán.
+Với khối lượng là 0kg, điện áp ngõ ra đo được là 0.65mV.
