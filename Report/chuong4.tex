@@ -20,7 +20,7 @@ $\Rightarrow$ $Q=5.15\mu\text{V}$ đây là mức thay đổi tối thiểu củ
 \section{Thiết kế bộ ADC 19 bits}
 Vì phần mềm NI Multisim không có bộ ADC 19 bits nên ta cần thiết kế lại bằng cách kết hợp các bộ ADC 16 bits có sẵn trong phần mềm. Để mô phỏng bộ ADC 19 bits trên NI Multisim ta sử dụng phương pháp cộng song song nhiều ngõ ra của các bộ ADC với nhau.
 
-Một bộ ADC 16 bits có thể tạo ra 655536 ($2^{16}$) mức tín hiệu khác nhau, với yêu cầu của bài này thì ta cần tối thiểu 500000 mức tín hiệu, để tăng thêm 3 bits để đủ 19 bits thì ta cần xếp chồng 8 bộ ADC 16 bits lên nhau.
+Một bộ ADC 16 bits có thể tạo ra 65536 ($2^{16}$) mức tín hiệu khác nhau, với yêu cầu của bài này thì ta cần tối thiểu 500000 mức tín hiệu, để tăng thêm 3 bits để đủ 19 bits thì ta cần xếp chồng 8 bộ ADC 16 bits lên nhau.
 $$\boxed{\text{số mức biễu diễn} = 2^{16} \times 2^{3} = 65535 \times 8 = 524288 \quad\text{(mức)}}$$
 
 Tương ứng với 8 bộ ADC thì ta cần 8 khoảng $V_{ref}$, mỗi bộ ADC sẽ phụ trách phát hiện sự thay đổi tín hiệu trong từng khoảng, để làm được điều này thì ta cần chia tầm toàn thang ban đầu $R = 2.65 \text{V}$ lớn thành 8 đoạn nhỏ bằng nhau và đặt tên cho mỗi đoạn là $R_n$:

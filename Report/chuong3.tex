@@ -192,19 +192,18 @@ Với khối lượng là 0kg, điện áp ngõ ra đo được là 650mV.
 Trên lý thuyết, cảm biến được thiết kế khi nó đang được tham chiếu trong một môi trường thiết kế nhất định, khi đó tính chính xác của cảm biến đó sẽ đúng nhưng chỉ đối với tại môi trường mà nó được sản xuất. Trong thực tế, cảm biến sẽ dùng ở những môi trường khác nhau, cụ thể với load cell khi xem xét về vấn đề nhiệt độ nó sẽ có những sai số theo như datasheet mô tả.
 
 Các thông số của loadcell bị ảnh hưởng bởi nhiệt độ:\\
-\begin{table}[htbp]
-\begin{center}
+\begin{table}[H]
+\centering
 \begin{tabular}{|c|c|}
 \hline
 Ảnh hưởng nhiệt độ tới độ nhạy \%RO/$^o C$& 0.003\\
 \hline
-Ảnh hưởng nhiệt độ tới điểm không \%RO/$^o C$ & 0.02              \\
+Ảnh hưởng nhiệt độ tới điểm không \%RO/$^o C$ & 0.02\\
 \hline
 \end{tabular}
-\end{center}
-\end{table}\\
-
-
+\caption{Ảnh hưởng nhiệt độ của Load cell}
+\label{tab:loadcell_temp_effect}
+\end{table}
 Ảnh hưởng nhiệt độ tới độ nhạy: 
 $0.003\%RO/^{\circ}\text{C}$ có nghĩa là: cứ mỗi $1^{\circ}\text{C}$ nhiệt độ môi trường thay đổi (tăng hoặc giảm) so với nhiệt độ tham chiếu (thường là $25^{\circ}\text{C}$), thì độ nhạy của Load Cell sẽ thay đổi $\mathbf{0.003\%}$ so với giá trị $RO$ danh định của nó.
 Hậu quả: Nếu nhiệt độ tăng, ví dụ, $10^{\circ}\text{C}$ so với nhiệt độ chuẩn, thì độ nhạy sẽ thay đổi $10 \times 0.003\% = 0.03\%$. Điều này dẫn đến sự sai lệch trong phép đo tải. Ví dụ: khi bạn đặt tải tối đa, tín hiệu ngõ ra có thể không phải là $RO$ mà là $RO \pm 0.03\%$.
@@ -294,4 +293,11 @@ Khảo sát giá trị I và V ngõ ra đọc được tại $0^\circ\text{C}$ b
     \includegraphics[width=0.8\textwidth]{image/at50_V.jpg}
     \caption{Tại nhiệt độ $50^\circ\text{C}$, quan sát V}
     \label{fig:at50_V}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/Overview.png}
+    \caption{Tổng quan thiết kế mạch nguyên lý đọc Load cell}
+    \label{fig:overview}
 \end{figure}
