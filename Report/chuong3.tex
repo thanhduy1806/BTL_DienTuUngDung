@@ -247,3 +247,50 @@ Sử dụng INA333 để đọc tín hiệu và ngõ ra của cảm biến nhi�
 \end{figure}
 
 Sử dụng OP07CS8 để làm mạch cộng tín hiệu bù nhiệt độ và tín hiệu cân chỉnh offset thủ công. Tín hiệu bù nhiệt được đưa vào chân âm để có ngõ ra là một điện áp âm để bù với offset nhiệt độ trên loadcell, chân cộng được kết nối với biến trở để điều chỉnh thủ công. Chọn $R_{24} = R_{25} = 10k$ để độ lợi khuếch đại là 1.
+\clearpage 
+Sử dụng một nguồn DC với biến Vtemp để giả sử độ trôi của loadcell, Hình~\ref{fig:vtemp50} và Hình~\ref{fig:vtemp100} đang xét tại 2 mốc nhiệt độ là $50^\circ\text{C}$ và $100^\circ\text{C}$ để xem xét sự trôi.
+
+Theo công thức được cung cấp thì Vtemp = $0.02\% \times 5\text{mV} \times T = 1\mu \times T$
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/vtemp50.jpg}
+    \caption{Tại nhiệt độ $50^\circ\text{C}$}
+    \label{fig:vtemp50}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/vtemp100.jpg}
+    \caption{Tại nhiệt độ $100^\circ\text{C}$}
+    \label{fig:vtemp100}
+\end{figure}
+
+Khảo sát giá trị I và V ngõ ra đọc được tại $0^\circ\text{C}$ bằng Hình~\ref{fig:at0_I}, Hình~\ref{fig:at0_V}  và $50^\circ\text{C}$ bằng Hình~\ref{fig:at50_I}, Hình~\ref{fig:at50_V}, có thể thấy không có sự chênh lệch lớn giữa 2 kết quả đo cho thấy mạch bù nhiệt khi mô phỏng hoạt động hiệu quả.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/at0_I.jpg}
+    \caption{Tại nhiệt độ $0^\circ\text{C}$, quan sát I}
+    \label{fig:at0_I}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/at0_V.jpg}
+    \caption{Tại nhiệt độ $0^\circ\text{C}$, quan sát V}
+    \label{fig:at0_V}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/at50_I.jpg}
+    \caption{Tại nhiệt độ $50^\circ\text{C}$, quan sát I}
+    \label{fig:at50_I}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/at50_V.jpg}
+    \caption{Tại nhiệt độ $50^\circ\text{C}$, quan sát V}
+    \label{fig:at50_V}
+\end{figure}
