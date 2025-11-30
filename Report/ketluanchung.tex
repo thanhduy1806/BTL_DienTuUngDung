@@ -1,0 +1,9 @@
+\chapter{Kết luận}
+
+Nhóm đã hoàn thành việc thiết kế mạch đo khối lượng (tiểu ly) sử dụng Load cell YZC-133, đáp ứng đầy đủ các yêu cầu kỹ thuật của đề tài đưa ra, bao gồm tầm đo 0-1kg và độ phân giải 2mg. Nhóm đã trình bày một quy trình thiết kế mạch từ khâu lựa chọn linh kiện, tính toán lý thuyết, mô phỏng các khối chức năng, đến khâu thiết kế bộ chuyển đổi ADC. Các giá trị tính gần đúng với khi tính lý thuyết.\\
+
+Mạch được thiết kế khá hoàn chỉnh từ ngõ ra Load cell (tín hiệu mV nhỏ) qua bộ khuếch đại vi sai INA333 , mạch chuyển đổi V-I (0-5V thành 4-20mA), thiết kế mạch bù nhiệt, mạch đọc dòng, và cuối cùng là mạch đọc ADC. Các kết quả mô phỏng cho thấy giá trị đầu ra (dòng điện và điện áp) gần đúng với giá trị lý thuyết. \\
+
+Kết quả mô phỏng gần đúng với tính toán lý thuyết đưa ra,  sai số nhỏ do ảnh hưởng từ các thông số không lý tưởng của OPAMP và sai số nội tại của các khối mô phỏng. Khi mô phỏng bộ ADC bằng phần mềm NI Multisim thì các sai số nội tại bên trong mỗi bộ cộng cũng góp phần làm sai lệch đến kết quả tại ngõ ra nhưng vẫn có thể chấp nhận được.\\
+
+Tóm lại, nhóm em đã thiết kế và mô phỏng một mạch đo khối lượng có độ chính xác và độ phân giải cao gần với đề tài yêu cầu. Tuy nhiên, để chuyển đổi từ mô phỏng sang sản phẩm thực tế, cần tiếp tục tinh chỉnh các giá trị linh kiện và kiểm tra ảnh hưởng tổng hợp của các sai số linh kiện thực tế.
