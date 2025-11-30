@@ -1,0 +1,167 @@
+\chapter{Thiết kế mạch đọc ADC}
+\section{Tính toán các giá trị lý thuyết}
+
+Theo yêu cầu của đề bài ta cần thiết kế một bộ ADC có thể đọc được tầm đo $0-1kg$ và có độ phân giải là $2mg$, ta cần tính được số lượng mức tín hiệu cần thiết để có thể đọc được đầy đủ các tín hiệu tại đầu vào ADC. Số mức tín hiệu tối thiểu cần thiết cho độ phân giải này là:
+$$\boxed{\text{Số mức tín hiệu} = \dfrac{\text{tầm đo}}{\text{độ phân giải}} = \dfrac{1000}{2\times10^{-3}} = 500000 \quad\text{(mức)}}$$
+$\Rightarrow$ Để có được độ phân giải theo đề bài yêu cầu, ta cần $500000$ mức tín hiệu, số bit tối thiểu để biểu diễn một mức tín hiệu là:
+$$\boxed{N=\log_2(500000) \approx 18.93 \Rightarrow \text{chọn 19 bits}}$$
+$\Rightarrow$ Cần tối thiểu 19 bits để biễu diễn đầy đủ 500000 mức tín hiệu, khi sử dụng 19 bits ta có thể biễu diễn được 524288 $(2^{19})$ mức tín hiệu. Dựa trên các thông số vừa tính được, nhóm đã chọn ra IC ADC 20 bits với mã là \textbf{ADS1230} với nguồn điện áp cấp vào là $2.7V$ tới $5V$.   
+
+Như đã đề cập trong mục 3.3 của Chương 3, với khối lượng là $1kg$ tương ứng với điện áp ngõ ra $3.3V$ và khối lượng $0kg$ tương ứng với điện áp ngõ ra đo được là $650mV$.\\
+$\Rightarrow$ Tín hiệu Analog cấp vào bộ ADC dao động trong khoảng $[0.65-3.3]$ (V)
+Tầm toàn thang (R) là khoảng chênh lệch giữa giá trị lớn nhất và giá trị nhỏ nhất mà một hệ thống, thiết bị đo lường, hoặc bộ chuyển đổi có thể đo lường, xử lý. 
+Tầm toàn thang tương ứng trong bài này là:
+$$\boxed{R = 3.3 - 0.65 = 2.65 \quad(V)}$$
+
+Bước lượng tử (Q) là giá trị điện áp nhỏ nhất tương ứng với một sự thay đổi 1 bit tại ngõ ra của Bộ chuyển đổi ADC. Bước lượng tử cần thiết (Q) trong bài này là:
+$$\boxed{Q = \dfrac{R}{2^N}=\dfrac{2.65}{2^{19}} =5.15 \quad(\mu\text{V})}$$
+$\Rightarrow$ $Q=5.15\mu\text{V}$ đây là mức thay đổi tối thiểu của tín hiệu để bộ ADC có thể phát hiện được sự thay đổi này, với số lượng bit biễu diễn là 19 bits.
+
+\section{Thiết kế bộ ADC 19 bits}
+Vì phần mềm NI Multisim không có bộ ADC 19 bits nên ta cần thiết kế lại bằng cách kết hợp các bộ ADC 16 bits có sẵn trong phần mềm. Để mô phỏng bộ ADC 19 bits trên NI Multisim ta sử dụng phương pháp cộng song song nhiều ngõ ra của các bộ ADC với nhau.
+
+Một bộ ADC 16 bits có thể tạo ra 655536 ($2^{16}$) mức tín hiệu khác nhau, với yêu cầu của bài này thì ta cần tối thiểu 500000 mức tín hiệu, để tăng thêm 3 bits để đủ 19 bits thì ta cần xếp chồng 8 bộ ADC 16 bits lên nhau.
+$$\boxed{\text{số mức biễu diễn} = 2^{16} \times 2^{3} = 65535 \times 8 = 524288 \quad\text{(mức)}}$$
+
+Tương ứng với 8 bộ ADC thì ta cần 8 khoảng $V_{ref}$, mỗi bộ ADC sẽ phụ trách phát hiện sự thay đổi tín hiệu trong từng khoảng, để làm được điều này thì ta cần chia tầm toàn thang ban đầu $R = 2.65 \text{V}$ lớn thành 8 đoạn nhỏ bằng nhau và đặt tên cho mỗi đoạn là $R_n$:
+$$\boxed{R_n = \dfrac{2.65}{8} = 0.33125 \quad\text{(V)}}$$
+
+Như vậy ta sẽ có được các khoảng $V_{ref}$ bằng nhau tương ứng với từng bộ như sau: \\
+\begin{itemize}
+    \item ADC thứ 1 có khoảng $V_{\text{ref}}$ là: $[0.65 - 0.98125]$ (V)
+    \item ADC thứ 2 có khoảng $V_{\text{ref}}$ là: $[0.98125 - 1.3125]$ (V)
+    \item ADC thứ 3 có khoảng $V_{\text{ref}}$ là: $[1.3125 - 1.64375]$ (V)
+    \item ADC thứ 4 có khoảng $V_{\text{ref}}$ là: $[1.64375 - 1.975]$ (V)
+    \item ADC thứ 5 có khoảng $V_{\text{ref}}$ là: $[1.975 - 2.30625]$ (V)
+    \item ADC thứ 6 có khoảng $V_{\text{ref}}$ là: $[2.30625 - 2.6375]$ (V)
+    \item ADC thứ 7 có khoảng $V_{\text{ref}}$ là: $[2.6375 - 2.96875]$ (V)
+    \item ADC thứ 8 có khoảng $V_{\text{ref}}$ là: $[2.96875 - 3.3]$ (V)
+\end{itemize}
+
+Khi có tín hiệu Analog đưa vào bộ ADC, tín hiệu này sẽ đi qua tất cả bộ, bên trong mỗi bộ ADC sẽ thực hiện so sánh ngưỡng tín hiệu đầu vào này với khoảng $V_{ref}$ tương ứng và biến đổi tín hiệu tại ngõ ra:\\
+\begin{itemize}
+    \item Nếu tín hiệu đi vào nhỏ hơn hoặc bằng ngưỡng dưới của khoảng $V_{ref}$ thì ngõ ra của bộ ADC sẽ xuất ra tín hiệu 0.
+    \item Nếu tín hiệu đi vào lớn hơn ngưỡng $V_{ref}$ trên thì ngõ ra sẽ xuất ra tín hiệu mức 1.
+    \item Nếu tín hiệu nằm trong ngưỡng thì giá trị tại ngõ ra sẽ được tính như sau:
+\end{itemize}
+$$\boxed{D_{out} = \dfrac{V_{out}\times2^{N}}{V_{ref}}}$$ 
+
+Để tính ngược lại giá trị $V_{in}$ trước khi vào bộ ADC ta tính như sau:
+$$\boxed{V_{in}=\dfrac{D_{out}\times R}{2^N}+V_{ref\text{dưới}}}$$
+
+Tại ngõ ra của mỗi bộ ADC sẽ xuất ra tín hiệu nhị phân, để đổi tín hiệu này về giá trị khối lượng ta cần đưa về giá trị điện áp tương ứng và dùng công thức để đưa về giá trị khống lượng cụ thể:
+$$\boxed{m=\dfrac{V_{in}}{V_{in\text{max}}}\times1Kg}$$
+
+\section{Mô phỏng bộ ADC 19 bits}
+\subsection{Các khối chính sử dụng trong mô phỏng}
+Trong file ta sử dụng hai khối chính là khối giả lập ADC 16 bits và bộ cộng Full Adder 4 bits 74LS83D:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/hinh_adc_16bits.png}
+    \caption{Bộ ADC 16 bits trong phần mềm mô phỏng NI Multisim}
+    \label{fig:hinh_adc_16bits}
+\end{figure}
+
+Chức năng của các chân như sau:
+\begin{itemize}
+    \item \textbf{Chân Vin}: được sử dụng để cấp tín hiệu Analog tại ngõ vào.
+    \item \textbf{Chân $V_{ref+}$ và $V_{ref-}$}: khoảng điện áp tham chiều của mỗi bộ sẽ được đưa vào .
+    \item \textbf{Chân SOC (Start Of Conversation)}: được sử dụng để cấp một nguồn xung, xung này sẽ giúp cho ADC biết được thời điểm lấy mẫu. Trong bộ giả lập này, ADC sẽ lấy mẫu tại thời điểm khi có cạnh lên (0 sang 1).
+    \item \textbf{Chân EOC (End Of Conversation)}: thông báo quá trình chuyển đổi tín hiệu đã hoàn tất. Ban đầu chân sẽ xuất ra mức 1, khi quá trình hoàn tất chân sẽ xuất ra mức 0.
+    \item \textbf{Các chân D0 - D15}: sẽ tương ứng với các chân xuất giá trị nhị phân tại ngõ ra.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/hinh_bo_cong_7483.png}
+    \caption{Bộ cộng Full Adder 4 bits trong phần mềm mô phỏng Multisim}
+    \label{fig:hinh_bo_cong_7483}
+\end{figure}
+Chức năng của các chân như sau:
+\begin{itemize}
+    \item \textbf{Chân A1-A4}: số hạng A.
+    \item \textbf{Chân B1-B4}: số hạng B
+    \item \textbf{Chân C0}: bit nhớ, sử dụng khi kết hợp nhiều bộ cộng với nhau.
+    \item \textbf{Chân S1-S4}: tổng của hai số hạng A và B.
+    \item \textbf{Chân C4}: bit nhớ.
+\end{itemize}
+
+Giải thích cách thức hoạt động khi tạo ra bộ ADC 19 bits bằng các bộ ADC 16 bits và các bộ cộng:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{image/giai_thich_adc.png}
+    \caption{Kết hợp bộ ADC và bộ ADC}
+    \label{fig:giai_thich_adc}
+\end{figure}
+
+Tương ứng với mỗi ngõ ra ADC sẽ tạo ra một giá trị 16 bits, theo như phương pháp cộng song song đã trình bày ở trên ta tiến hành cộng từng cặp bit tương ứng trọng số với nhau.\\
+
+Một bộ Full-Adder chỉ có thể cộng được tối đa hai số 4 bits vì thế ta cần bốn bộ cộng tương ứng với từng cặp bit cùng trọng số $[D0-D3]$, $[D4-D7]$, $[D8-D11]$ và $[D12-D15]$.\\
+
+Ta có 8 bộ ADC sẽ tương đương với 4 cặp cộng với nhau, 1 cặp ADC cộng lại với nhau (các ký số có cùng trọng số với nhau) sẽ tạo ra giá trị 17 bits, bit nhớ cuối sẽ bit thứ 17.\\
+
+Hai cặp ADC cộng lại sẽ tạo ra giá trị 18 bits. Khi cộng hai giá trí 18 bits lại với nhau sẽ tạo ra giá trị 19 bits, đúng với giá trị mong muốn thiết kế ban đầu.
+
+
+\subsection{Mô phỏng và kết quả}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/mo_phong_adc19bits.png}
+    \caption{Mô hình thiết kế hoàn chỉnh cho bộ ADC 19 bits}
+    \label{fig:mo_phong_adc19bits}
+\end{figure}
+
+% mô phỏng ở nhiệt độ 0*C
+\textbf{Tiến hành chạy mô phỏng với khối lượng m = 0Kg ở nhiệt độ $\text{0°C}$}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/mo_phong_adc_0.6V_T0.png}
+    \caption{Chạy mô phỏng với giá trị 0Kg ở nhiệt độ $\text{0°C}$}
+    \label{fig:mo_phong_adc19bits}
+\end{figure}
+\textbf{Nhận xét:} với khối lượng 0kg thì giá trị tại ngõ ra là các bit 0 đúng với mong muốn, tương ứng $0Kg$
+
+\textbf{Tiến hành chạy mô phỏng với khối lượng m = 1Kg ở nhiệt độ $\text{0°C}$}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/mo_phong_33V_T0.png}
+    \caption{Chạy mô phỏng với giá trị 1Kg ở nhiệt độ $\text{0°C}$}
+    \label{fig:mo_phong_adc19bits}
+\end{figure}
+\textbf{Nhận xét:} giá trị ngõ ra thu được $D_{out}=(524280)_{10}$ tính ngược lại giá trị $V_{in}=3.25$V từ đó ta tính ra được giá trị khối lượng là $0.99Kg$, gần đúng với giá trị tính trên lý thuyết.\\
+
+% mô phỏng ở nhiệt độ 25*C
+\textbf{Tiến hành chạy mô phỏng với khối lượng m = 0.5Kg ở nhiệt độ $\text{25°C}$}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/mo_phong_15V_T25.png}
+    \caption{Chạy mô phỏng với giá trị 0.5Kg ở nhiệt độ $\text{25°C}$}
+    \label{fig:mo_phong_adc19bits}
+\end{figure}
+\textbf{Nhận xét:} giá trị ngõ ra thu được $D_{out}=(174760)_{10}$ tính ngược lại giá trị $V_{in}=1.48$V từ đó ta tính ra được giá trị khối lượng là $0.45Kg$, gần đúng với giá trị tính trên lý thuyết.
+
+% mô phỏng ở nhiệt độ 50*C
+\textbf{Tiến hành chạy mô phỏng với khối lượng m = 0.5Kg ở nhiệt độ $\text{50°C}$}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/mo_phong_198V_T50.png}
+    \caption{Chạy mô phỏng với giá trị 0.5Kg ở nhiệt độ $\text{50°C}$}
+    \label{fig:mo_phong_adc19bits}
+\end{figure}
+\textbf{Nhận xét:} giá trị ngõ ra thu được $D_{out}=(267965)_{10}$ tính ngược lại giá trị $V_{in}=1.95$V từ đó ta tính ra được giá trị khối lượng là $0.59Kg$, gần đúng với giá trị tính trên lý thuyết. .\\
+
+\subsection{Kết luận}
+Sau khi tính toán lý thuyết và tiến hành chạy mô phỏng trên phần mềm NI Multisim, kết quả mô phỏng sau khi tính lại có giá trị gần đúng với giá trị tính toán trên lý thuyết, các sai số có thể đến từ các khối mô phỏng. Sử dụng nhiều nhiều bộ cộng và các bộ ADC không thể tránh được cái sai nội tại trong mỗi bộ, nhưng nhìn các kết quả gần đúng với giá trị lý thuyết.
+
+
+
+
+
+
+
+
+
+
+
+
+
