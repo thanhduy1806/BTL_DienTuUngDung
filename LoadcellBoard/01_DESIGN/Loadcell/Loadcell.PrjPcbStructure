@@ -1,1 +1,2 @@
-Record=TopLevelDocument|FileName=power.SchDoc|SheetNumber=1
+Record=TopLevelDocument|FileName=loadcell.SchDoc|SheetNumber=2
+Record=NoMainPathDocument|SourceDocument=loadcell.SchDoc|FileName=power.SchDoc|SheetNumber=1
