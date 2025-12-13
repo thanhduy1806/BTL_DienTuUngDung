@@ -118,7 +118,7 @@ GenerateClassCluster=0
 DocumentUniqueId=SMKUQZOA
 
 [Document5]
-DocumentPath=PCB11.PcbLib
+DocumentPath=PCB1.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -132,7 +132,7 @@ ClassGenCCAutoRoomEnabled=0
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=LKFMVRQO
+DocumentUniqueId=MECFXDXB
 
 [Configuration1]
 Name=Sources
