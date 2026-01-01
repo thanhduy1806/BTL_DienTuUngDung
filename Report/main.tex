@@ -5,6 +5,8 @@
 \usepackage[left=3cm, right=2cm, top=2cm, bottom=2cm]{geometry}
 \usepackage{setspace}
 \usepackage{array, booktabs, subcaption}
+\usepackage{tabularx}
+\usepackage{caption} % Để dùng được lệnh \caption* không đánh số
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{tikz}
@@ -55,10 +57,18 @@
 
 \begin{document}
 
+
+
+
 % --- Trang bìa & lời cảm ơn ---
 \pagenumbering{gobble} 
 \input{titlepage}
 \cleardoublepage
+
+      % Ngắt trang sạch sẽ
+\input{nhiemvu}      % <--- CHÈN BẢNG CỦA BẠN VÀO ĐÂY
+\cleardoublepage 
+
 \pagenumbering{arabic}
 \input{loicamon}
 
