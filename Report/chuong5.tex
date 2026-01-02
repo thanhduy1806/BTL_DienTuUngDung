@@ -1,0 +1,163 @@
+\chapter{Thực hiện phần cứng}
+\section{Sơ đồ nguyên lý khối nguồn}
+
+Hình~\ref{fig:power}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/power.JPG}
+    \caption{Tổng quan sơ đồ nguyên lý thiết kế nguồn}
+    \label{fig:power}
+\end{figure}
+
+Hình~\ref{fig:power} là sheet thiết kế các khối nguồn để chuyển từ 12V DC ngõ vào thành các mức điện áp 5V, -5V, 3V3 dùng cho các mục đích khác nhau.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/buck12to5.JPG}
+    \caption{Mạch nguồn buck DC-DC 12V sang 5V}
+    \label{fig:buck12to5}
+\end{figure}
+
+Hình~\ref{fig:buck12to5} sử dụng IC XL1509 để làm IC buck DC-DC chuyển từ 12V sang 5V, dụa vào nhu cầu thiết kế ngõ ra, ngõ vào, chọn các linh kiện thụ động bao gồm các tụ điện lọc ngõ vào 10$\mu\text{F}$, 1$\mu\text{F}$. Dựa vào tham khảo của datasheet và  theo yêu cầu thiết kế, chọn chọn cuộn cảm ở ngõ ra 68$\mu\text{H}$, chọn diode SS34 cho ngõ ra, các tụ lọc ngõ ra tương tự ngõ vào là 10$\mu\text{F}$, 1$\mu\text{F}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/chargebump.JPG}
+    \caption{Mạch charge pump tạo nguồn -5V}
+    \label{fig:chargepump}
+\end{figure}
+
+Hình~\ref{fig:chargepump} sử dụng IC ICL7662 làm IC charge pump tạo tín hiệu ngõ ra -5V, đặc trưng cách thiết kế là sử dụng IC ICL7662 kết hợp với 2 tụ phân cực, tụ ngõ vào cực dương mắc vào chân cap+ và cực âm vào cap-, còn ngõ ra cực dương của tụ sẽ nối đất còn cực âm là điểm lấy áp -5V.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/ldo.JPG}
+    \caption{Mạch LDO 5V sang 3V3}
+    \label{fig:ldo}
+\end{figure}
+
+Hình~\ref{fig:ldo} sử dụng LDO, IC AMS1117-3.3V để chuyển áp từ 5V xuống 3V3. Bên dưới là 4 symbol cho lỗ bắt vít. 
+
+\section{Sơ đồ nguyên lý khối chức năng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/functionsche.jpg}
+    \caption{Tổng quát trang thiết kế mạch đo}
+    \label{fig:functionsche}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/opamploadcell.jpg}
+    \caption{Mạch khuếch đại tính hiệu loadcell}
+    \label{fig:opamploadcell}
+\end{figure}
+
+Hình~\ref{fig:opamploadcell} sử dụng opamp INA333 để khuếch đại tín hiệu từ loadcell, do loadcell tối đa ngõ ra là 5mV cho 1kg tối đa tầm đo, nên nhóm quyết định dùng INA333 để khuếch đại được tín hiệu nhỏ và loại bỏ được nhiễu tốt, bên cạnh đó có thể điều chỉnh mức bù áp từ chân REF của IC. Dùng 1 opamp OP07CP để làm Vref cho mạch chuyển đổi dòng phía sau, kết hợp với Vin là V ngõ ra của INA333, trước khi vào mạch chuyển đổi dòng thì nhóm cho qua 1 opamp OP07CP với hệ số khuếch đại là 1 có vai trò như một buffer.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/convert_VI.jpg}
+    \caption{Mạch chuyển tín hiệu áp sang dòng}
+    \label{fig:convert_VI}
+\end{figure}
+
+Hình~\ref{fig:convert_VI} chuyển tính hiệu áp sau khi nhận về và khuếch đại lên mức phù hợp sang dòng theo yêu cầu là 4 đến 20mA. Trong quá trình mô phỏng, điện trở cực S được mắc bằng các trở nối tiếp để có giá trị theo tính toán mô phỏng do không tìm được 1 điện trở có giá trị đúng bằng như thế trên thị trường.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/opamptemp.jpg}
+    \caption{Mạch bù ảnh hưởng nhiệt và điều chỉnh offset}
+    \label{fig:opamptemp}
+\end{figure}
+
+Hình~\ref{fig:opamptemp} dùng INA333 để khuếch đại tín hiệu đọc từ cảm biến nhiệt độ môi trường làm thành phần bù nhiệt. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/ic_adc.jpg}
+    \caption{Mạch chuyển đổi tín hiệu analog sang digital}
+    \label{fig:ic_adc}
+\end{figure}
+
+Hình~\ref{fig:ic_adc} dùng làm mạch đọc ADC để gửi tín hiệu digital cho việc tính toán giá trị đo được. Nhóm sử dụng IC ADS1230IPWR có tối đa 20 bit, để thực hiện việc chuyển đổi analog sang digital. Các chân AINP và AINN được nối với 2 đầu của điện trở shunt để xem mức điện áp trên shunt để tính toán dòng điện qua nó, các chân được kết nối với MCU bao gồm PDWN, nhận tín hiệu điều khiển từ MCU, SCLK để cấp clock từ MCU đồng bộ tín hiệu với IC, chân DOUT là chân xuất các bit dữ liệu về MCU.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/connector.jpg}
+    \caption{Các connector kết nối với cảm biến}
+    \label{fig:connector}
+\end{figure}
+
+Hình~\ref{fig:connector} là các header để kết nối từ board đến loadcell, cảm biến nhiệt và MCU.
+
+\section{Sơ đồ layout}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/toplayout.jpg}
+    \caption{Top layer}
+    \label{fig:toplayout}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/botlayout.jpg}
+    \caption{Bottom layer}
+    \label{fig:botlayout}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{image/board3d.jpg}
+    \caption{Mô hình 3D}
+    \label{fig:board3d}
+\end{figure}
+
+\section{Phần cứng thực tế}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{image/no_component_board.jpg}
+    \caption{Mạch thực sau khi thi công}
+    \label{fig:no_component}
+\end{figure}
+
+Hình~\ref{fig:no_component} là mạch sau khi được đơn vị thi công, chưa hàn linh kiện.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{image/component_board.jpg}
+    \caption{Mạch thực hoàn chỉnh}
+    \label{fig:component}
+\end{figure}
+
+Hình~\ref{fig:component} mạch sau khi hàn linh kiện và gắn với loadcell, có một số lỗi phần cứng nên có một số sửa chữa được trình bày ở phần sau.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{image/power5v.jpg}
+    \caption{Đo điện áp từ nguồn 5V}
+    \label{fig:5v}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{image/power-5v.jpg}
+    \caption{Đo điện áp từ nguồn -5V}
+    \label{fig:-5v}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{image/power3v3.jpg}
+    \caption{Đo điện áp từ nguồn 3V3}
+    \label{fig:3v3}
+\end{figure}
+
+Hình~\ref{fig:5v}, \ref{fig:-5v}, \ref{fig:3v3} đo đạt các giá trị nguồn sau khi cấp nguồn DC 12V vào board.
+
