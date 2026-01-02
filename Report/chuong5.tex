@@ -161,3 +161,31 @@ Hình~\ref{fig:component} mạch sau khi hàn linh kiện và gắn với loadce
 
 Hình~\ref{fig:5v}, \ref{fig:-5v}, \ref{fig:3v3} đo đạt các giá trị nguồn sau khi cấp nguồn DC 12V vào board.
 
+\section{Đánh giá phần cứng}
+\subsection {Mặt tích cực}
+Phần cứng có kích thước nhỏ gọn, phù hợp cho các mô hình cân nhỏ như mô hình loadcell, các linh kiện được sắp xếp tối ưu trên một mặt giúp người dùng và người chỉnh sửa có thể dễ dàng thao tác, có đầy đủ các connector phù hợp với nhu cầu sử dụng của người dùng, có các testpoint tham chiếu đo đạc giá trị, giá trị các nguồn đạt đúng yêu cầu, sủ dụng nguồn cấp 12V và connector jack DC thông dụng trên thị trường, các linh kiện được chọn cũng là những linh kiện có thể mua được ở nhiều nền tảng.
+
+\subsection {Mặt hạn chế}
+Trong quá trình thiết kế board, nhóm có thực hiện sai việc kết nối 1 dây ở vị trí mạch chuyển đổi áp sang dòng ở hình \ref{fig:wireerror}, nhóm đã thực hiện bằng cách cắt đường mạch và nối dây bên ngoài, hình \ref{fig:powererror}.Bên cạnh đó, trong quá trình lựa chọn opamp để mô phỏng và sử dụng, nhóm dùng OPAMP INA333, khi mô phỏng để đạt được hiệu quả mong muốn nhóm đã cấp nguồn cho opamp là 12V và -5V, kết quả mô phỏng diễn ra suôn sẻ đã được thể hiện ở chương trước, trong quá trình thiết kế phần cứng thực tế nhóm đã sơ suất trong việc xem xét nguồn cấp cho INA333 dẫn đến kết quả đo đạc không đúng, nhóm đã có những điều chỉnh kết nối để INA333 hoạt động bình thường, hình \ref{fig:afrerfix} sau khi đã sửa.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/wireerror.jpg}
+    \caption{Lỗi kết nối dây}
+    \label{fig:wireerror}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/powererror.jpg}
+    \caption{Lỗi chọn nguồn}
+    \label{fig:powererror}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/afterfix.jpg}
+    \caption{Sau khi chỉnh sửa phần cứng}
+    \label{fig:afrerfix}
+\end{figure}
