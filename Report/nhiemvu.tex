@@ -1,16 +1,23 @@
-% Không cần khai báo \documentclass hay \begin{document} ở đây
+% Thêm gói này vào phần khai báo (Preamble) của bạn:
+% \usepackage{tabularx}
+% \usepackage{array}
+
+\renewcommand{\arraystretch}{2.5} % Tăng chiều cao của các hàng (mặc định là 1)
 \begin{table}[htbp]
     \centering
     \caption*{Danh sách thành viên và phân công nhiệm vụ}
     \label{tab:danh-sach-nhom}
-    \begin{tabularx}{\textwidth}{|l|l|X|l|l|}
+    % Sử dụng m{...} để căn giữa nội dung theo chiều dọc
+    \begin{tabularx}{\textwidth}{|l|l|>{\raggedright\arraybackslash}X|c|l|}
         \hline
         \textbf{MSSV} & \textbf{Họ và Tên} & \textbf{Nhiệm vụ} & \textbf{Đánh giá} & \textbf{Chữ ký ĐT} \\ \hline
         % Thành viên 1
-        2212901 & Ve Samy & Thực hiện mô phỏng Loadcell, thiết kế mạch chuyển đổi áp sang dòng, vẽ PCB, đo, test và sửa mạch. & Hoàn thành & \\ \hline
+        2212901 & Ve Samy & Thực hiện mô phỏng Loadcell, thiết kế mạch chuyển đổi áp sang dòng, vẽ PCB, đo, test và sửa mạch. & 100\% & \\ \hline
         % Thành viên 2
-        2212529 & Nguyễn Xuân Phát & Điền nhiệm vụ vào đây & Hoàn thành & \\ \hline
+        2212529 & Nguyễn Xuân Phát & Tính toán và mô phỏng bộ ADC, hàn mạch, đo và test mạch & 100\% & \\ \hline
         % Thành viên 3
-        2210527 & Nguyễn Thanh Duy & Thực hiện mô phỏng mạch bù nhiệt, vẽ schematic, chuẩn bị slide trình bày & Hoàn thành & \\ \hline
+        2210527 & Nguyễn Thanh Duy & Thực hiện mô phỏng mạch bù nhiệt, vẽ schematic, chuẩn bị slide trình bày & 100\% & \\ \hline
     \end{tabularx}
 \end{table}
+
+
